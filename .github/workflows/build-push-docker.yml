@@ -1,0 +1,19 @@
+name: Build and push Docker image
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build_push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: print line
+      run: echo BUILDING $GITHUB_RUN_NUMBER
+    - name: build
+      uses: docker/build-push-action@v1.1.0
+      with:
+        file: ./6.2/debian-10/Dockerfile
+        registry: registry.husqylabs.com
+        repository: redisgraph
+        tags: latest
