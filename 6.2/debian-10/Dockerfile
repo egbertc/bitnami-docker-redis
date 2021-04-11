@@ -1,3 +1,6 @@
+#### My customization
+FROM redislabs/redigraph:latest AS graphimg
+#### End of
 FROM docker.io/bitnami/minideb:buster
 LABEL maintainer "Bitnami <containers@bitnami.com>"
 
@@ -21,6 +24,11 @@ RUN /opt/bitnami/scripts/redis/postunpack.sh
 ENV BITNAMI_APP_NAME="redis" \
     BITNAMI_IMAGE_VERSION="6.2.1-debian-10-r38" \
     PATH="/opt/bitnami/common/bin:/opt/bitnami/redis/bin:$PATH"
+    
+    ### My customization
+RUN mkdir /opt/bitnami/redis/modules
+COPY --from=graphimg /usr/lib/redis/modules/redisgraph.so* /opt/bitnami/redis/modules
+### End of
 
 EXPOSE 6379
 
